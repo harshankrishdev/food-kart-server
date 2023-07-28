@@ -32,8 +32,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use(
   express.json({
-    // We need the raw body to verify webhook signatures.
-    // Let's compute it only when hitting the Stripe webhook endpoint.
     verify: function (req, res, buf) {
       if (req.originalUrl.startsWith("/webhook")) {
         req.rawBody = buf.toString();
@@ -117,7 +115,7 @@ app.post("/create-payment-intent", async (req, res) => {
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalPrice,
-      currency: "usd",
+      currency: "INR",
     });
 
     res.send({
