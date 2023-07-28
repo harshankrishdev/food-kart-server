@@ -11,8 +11,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const db = require("./db");
 
 var corsOptions = {
-  // origin: "https://food-kart-app.netlify.app",
-  origin: "http://localhost:3000",
+  origin: "https://food-kart-app.netlify.app",
+  // origin: "http://localhost:3000",
 };
 
 const calculateOrderAmount = (orderItems) => {
