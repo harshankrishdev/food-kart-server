@@ -1,14 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-// const mongoose = require("mongoose");
 const app = express();
 const productRouter = require("./routes/productRouter");
 const userRouter = require("./routes/productRouter");
 const Order = require("./models/orderModel");
 const dotenv = require("dotenv");
 dotenv.config();
-// const URL = process.env.MONGO_URL;
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const db = require("./db");
 
@@ -51,7 +49,6 @@ app.post("/webhook", async (req, res) => {
 
   // Check if webhook signing is configured.
   if (process.env.STRIPE_WEBHOOK_SECRET) {
-    // Retrieve the event by verifying the signature using the raw body and secret.
     let event;
     let signature = req.headers["stripe-signature"];
     try {
@@ -83,18 +80,6 @@ app.post("/webhook", async (req, res) => {
   }
   res.sendStatus(200);
 });
-
-// mongoose
-//   .connect(URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => {
-//     console.log("DB Connetion Successfull");
-//   })
-//   .catch((err) => {
-//     console.log(err.message);
-//   });
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
@@ -128,8 +113,6 @@ app.post("/create-payment-intent", async (req, res) => {
       shippingPrice,
       user: "",
     });
-
-    // await order.save();
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalPrice,

@@ -6,7 +6,6 @@ dotenv.config();
 const URL = process.env.MONGOD_URL;
 
 async function main() {
-  // const uri = URL;
   const client = new MongoClient(URL);
 
   try {
